@@ -5,14 +5,16 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
-if (window.location.pathname === '/notes') {
-  noteForm = document.querySelector('.note-form');
-  noteTitle = document.querySelector('.note-title');
-  noteText = document.querySelector('.note-textarea');
-  saveNoteBtn = document.querySelector('.save-note');
-  newNoteBtn = document.querySelector('.new-note');
-  clearBtn = document.querySelector('.clear-btn');
-  noteList = document.querySelectorAll('.list-container .list-group');
+if(typeof window !== 'undefined') {
+  if (window.location.pathname === '/notes') {
+    noteForm = document.querySelector('.note-form');
+    noteTitle = document.querySelector('.note-title');
+    noteText = document.querySelector('.note-textarea');
+    saveNoteBtn = document.querySelector('.save-note');
+    newNoteBtn = document.querySelector('.new-note');
+    clearBtn = document.querySelector('.clear-btn');
+    noteList = document.querySelectorAll('.list-container .list-group');
+  }
 }
 
 // Show an element
@@ -184,11 +186,13 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
-if (window.location.pathname === '/notes') {
-  saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', handleNewNoteView);
-  clearBtn.addEventListener('click', renderActiveNote);
-  noteForm.addEventListener('input', handleRenderBtns);
+if(typeof window !== 'undefined') {
+  if (window.location.pathname === '/notes') {
+    saveNoteBtn.addEventListener('click', handleNoteSave);
+    newNoteBtn.addEventListener('click', handleNewNoteView);
+    clearBtn.addEventListener('click', renderActiveNote);
+    noteForm.addEventListener('input', handleRenderBtns);
+  }
 }
 
 getAndRenderNotes();
