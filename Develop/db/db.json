@@ -7,5 +7,15 @@
         "title": "New Note1",
         "text": "Here is a very important note\n",
         "note_id": "309d"
+    },
+    {
+        "title": "Do homework",
+        "text": "No seriously, do your homework, no more procrastinating",
+        "note_id": "379f"
+    },
+    {
+        "title": "Wake up",
+        "text": "No snoozing",
+        "note_id": "da17"
     }
 ]
