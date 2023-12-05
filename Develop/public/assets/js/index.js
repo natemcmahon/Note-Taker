@@ -80,8 +80,8 @@ const handleNoteSave = () => {
     text: noteText.value
   };
   saveNote(newNote).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
+    getAndRenderNotes().then(() =>
+    renderActiveNote());
   });
 };
 
@@ -92,14 +92,16 @@ const handleNoteDelete = (e) => {
 
   const note = e.target;
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+  console.log(noteId);
+  console.log(note.parentElement);
 
   if (activeNote.id === noteId) {
     activeNote = {};
   }
 
   deleteNote(noteId).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
+    getAndRenderNotes().then(() => 
+    renderActiveNote());    
   });
 };
 
@@ -186,8 +188,11 @@ const renderNoteList = async (notes) => {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
+console.log(typeof(window));
+
 if(typeof window !== 'undefined') {
   if (window.location.pathname === '/notes') {
+    console.log("we made it all the way here");
     saveNoteBtn.addEventListener('click', handleNoteSave);
     newNoteBtn.addEventListener('click', handleNewNoteView);
     clearBtn.addEventListener('click', renderActiveNote);

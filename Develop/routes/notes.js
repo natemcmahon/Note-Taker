@@ -18,7 +18,7 @@ notes.post('/', (req, res) => {
         const newNote = {
         title,
         text,
-        note_id: uuid(),
+        id: uuid(),
         };
 
         readAndAppend(newNote, './db/db.json');
@@ -27,6 +27,32 @@ notes.post('/', (req, res) => {
         res.error('Error in adding note');
     }
 });
+
+notes.delete('/:id', (req, res) => {
+        if (req.params.id) {
+            
+            console.info(`${req.method} request received to remove a note`);
+
+            readFromFile('./db/db.json').then((data) => {
+                var temp = JSON.parse(data)
+               
+                for (i = 0; i < temp.length; i++) {
+                    if (temp[i].id === req.params.id) {
+                        console.info("we found a match");
+                        
+                        // How do I actually delete it though?
+                        
+                        res.status(200).send("it's a match");
+                        return;
+                    }
+                }
+                res.status(404).send('Review not found');
+            });
+        }
+        else {
+            res.status(400).send('Review ID not provided');
+        }
+});
   
-  module.exports = notes;
+module.exports = notes;
   
