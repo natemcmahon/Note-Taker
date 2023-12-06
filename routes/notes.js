@@ -1,6 +1,7 @@
 const notes = require('express').Router();
 const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
+const fs = require('fs');
 
 // GET Route for retrieving all the tips
 notes.get('/', (req, res) => {
@@ -29,27 +30,18 @@ notes.post('/', (req, res) => {
 });
 
 notes.delete('/:id', (req, res) => {
-        if (req.params.id) {
-            
-            console.info(`${req.method} request received to remove a note`);
+        const tempId = req.params.id;
+        console.info(`${req.method} request received to remove a note`);
 
-            readFromFile('./db/db.json').then((data) => {
-                var temp = JSON.parse(data)
-               
-                for (i = 0; i < temp.length; i++) {
-                    if (temp[i].id === req.params.id) {
+        const temp = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+        for (i = 0; i < temp.length; i++) {
+                    if (temp[i].id === tempId) {
                         console.info("we found a match");
                         temp.splice(i,1);
-                        return;
                     }
-                }
-                fs.writeFileSync('./db/db.json', JSON.stringify(temp));
-                res.json(temp);
-            });
         }
-        else {
-            res.status(400).send('Review ID not provided');
-        }
+        fs.writeFileSync('./db/db.json', JSON.stringify(temp));
+        res.json(temp);        
 });
   
 module.exports = notes;
