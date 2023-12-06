@@ -39,14 +39,12 @@ notes.delete('/:id', (req, res) => {
                 for (i = 0; i < temp.length; i++) {
                     if (temp[i].id === req.params.id) {
                         console.info("we found a match");
-                        
-                        // How do I actually delete it though?
-                        
-                        res.status(200).send("it's a match");
+                        temp.splice(i,1);
                         return;
                     }
                 }
-                res.status(404).send('Review not found');
+                fs.writeFileSync('./db/db.json', JSON.stringify(temp));
+                res.json(temp);
             });
         }
         else {
